@@ -89,7 +89,8 @@ class Button(Sprite):
                 color = (200, 100, 100)
             else:
                 color = (100, 200, 100)
-            pygame.draw.rect(screen, color, (self.rect.width, self.rect.height // 2), self.rect.size // 2)
+            print(self.rect.width)
+            # pygame.draw.rect(screen, color, (self.rect.width, self.rect.height // 2), self.rect.size // 2)
         font = pygame.font.Font(None, self.text_size)  # Сделать обособленную фуекцию чтобы можно было скрывать текст
         text_surface = font.render(self.text, True, (0, 0, 0))
         text_rect = text_surface.get_rect(center=(self.rect.x + 10, self.rect.y + 10))

@@ -33,6 +33,9 @@ class StaticAPI:
         self.lat = lat
         self.map_params = {'ll':','.join([str(lon), str(lat)]), "l": "map", 'spn': f'{spn},{spn}', 'size': f'{650},{450}'}
 
+
+    def set_mode(self, mode):
+        self.map_params['l'] = mode
     def set_spn(self, spn):
         self.map_params['spn'] = f'{spn},{spn}'
     def set_coords(self, lon, lat):

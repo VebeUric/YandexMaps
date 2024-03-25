@@ -14,33 +14,92 @@ class AppManager:
         self.geoc = geoc
         self.scale_a = 0
         self.cnt = 0
-        self.spn = 1
-        self.lon = 0
-        self.lat = 0
-
-    def get_map(self, screen, W, H):
+        self.v = 0.1
+        self.start_V = 0.1
+        self.v_spn = 0.0005
+        self.V_start_spn = 0.0005
+        self.spn = self.St.spn
+        self.low_spn_v  = 0.05
+        self.lon = self.St.lon
+        self.lat = self.St.lat
+        self.previous_button = None
+    def get_map(self, screen, x, y, w, h):
         map_image = load_image(self.St.get_static_image())
-        # map_image = pygame.transform.scale(map_image, (700, 500))
-        screen.blit(map_image, (100, 100))
+        map_image = pygame.transform.scale(map_image, (w, h))
+        screen.blit(map_image, (x, y))
+
+
 
     def update_map(self, keys):
         if keys[pygame.K_1]:
-            print('okkkkk')
-            self.spn -= 0.005
+            if self.spn > 0.05:
+                if self.previous_button == pygame.K_1:
+                    self.v_spn += 0.025
+                else:
+                    self.v_spn = self.V_start_spn
+            else:
+                 self.v_spn = self.V_start_spn
+            if not self.spn - self.v_spn <= 0:
+                 self.spn -= self.v_spn
             self.St.set_spn(self.spn)
+            self.previous_button = pygame.K_1
         elif keys[pygame.K_2]:
-            self.spn += 0.005
+            if keys[pygame.K_2]:
+                if self.previous_button == pygame.K_2:
+                    self.v_spn += 0.025
+                else:
+                    self.v_spn = self.V_start_spn
+            self.spn += self.v_spn
             self.St.set_spn(self.spn)
+            self.previous_button = pygame.K_2
 
 
         if keys[pygame.K_UP]:
-            self.lon += 0.1
-            self.lat += 0.1
-            self.St.set_coords(self.lon, self.lon)
+            if self.spn >= 0.05:
+                if self.previous_button == pygame.K_UP:
+                    self.v += 0.025
+                else:
+                    self.v = self.start_V
+            else:
+                self.v = self.low_spn_v * self.spn
+            self.lat += self.v
+            self.St.set_coords(self.lon, self.lat)
+            self.previous_button = pygame.K_UP
+
         elif keys[pygame.K_DOWN]:
-            pass
+            if self.spn >= 0.05:
+                if self.previous_button == pygame.K_DOWN:
+                    self.v += 0.025
+                else:
+                    self.v = self.start_V
+            else:
+                self.v = self.low_spn_v * self.spn
+            self.lat -= self.v
+            self.St.set_coords(self.lon, self.lat)
+            self.previous_button = pygame.K_DOWN
+
         if keys[pygame.K_LEFT]:
-            pass
+            if self.spn >= 0.05:
+                if self.previous_button == pygame.K_LEFT:
+                    self.v += 0.025
+                else:
+                    self.v = self.start_V
+            else:
+                self.v = self.low_spn_v * self.spn
+            self.lon -= self.v
+            self.St.set_coords(self.lon, self.lat)
+            self.previous_button = pygame.K_LEFT
+
+
         elif keys[pygame.K_RIGHT]:
-            pass
+            if self.spn >= 0.05:
+                if self.previous_button == pygame.K_RIGHT:
+                    self.v += 0.025
+                else:
+                    self.v = self.start_V
+            else:
+                self.v = self.low_spn_v * self.spn
+            self.lon += self.v
+            self.St.set_coords(self.lon, self.lat)
+            self.previous_button = pygame.K_RIGHT
 
