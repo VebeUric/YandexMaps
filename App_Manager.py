@@ -31,9 +31,9 @@ class AppManager:
 
 
     def update_map(self, keys):
-        if keys[pygame.K_1]:
+        if keys[pygame.K_PAGEUP]:
             if self.spn > 0.05:
-                if self.previous_button == pygame.K_1:
+                if self.previous_button == pygame.K_PAGEUP:
                     self.v_spn += 0.025
                 else:
                     self.v_spn = self.V_start_spn
@@ -42,16 +42,16 @@ class AppManager:
             if not self.spn - self.v_spn <= 0:
                  self.spn -= self.v_spn
             self.St.set_spn(self.spn)
-            self.previous_button = pygame.K_1
-        elif keys[pygame.K_2]:
-            if keys[pygame.K_2]:
-                if self.previous_button == pygame.K_2:
+            self.previous_button = pygame.K_PAGEUP
+        elif keys[pygame.K_PAGEDOWN]:
+            if keys[pygame.K_PAGEDOWN]:
+                if self.previous_button == pygame.K_PAGEDOWN:
                     self.v_spn += 0.025
                 else:
                     self.v_spn = self.V_start_spn
             self.spn += self.v_spn
             self.St.set_spn(self.spn)
-            self.previous_button = pygame.K_2
+            self.previous_button = pygame.K_PAGEDOWN
 
 
         if keys[pygame.K_UP]:

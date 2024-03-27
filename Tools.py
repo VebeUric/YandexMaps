@@ -146,7 +146,7 @@ class SearchBox:
         self.font = pygame.font.Font(None, font_size)
         self.font_color = font_color
         self.bg_color = bg_color
-        self.text = '6'
+        self.text = ''
         self.active = False
         self.cursor_visible = True
         self.cursor_timer = 0
