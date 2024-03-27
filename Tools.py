@@ -12,7 +12,6 @@ class Button(Sprite):
         super().__init__()
         self.button_rect = None
         self.issue = issue
-        print(issue)
         self.text = text
         self.text_size = 50
         self.is_active = None
@@ -37,6 +36,7 @@ class Button(Sprite):
         self.color = new_color
 
     def on_click(self):
+        print(self.issue)
         if self.issue:
             self.issue()
 
@@ -54,7 +54,6 @@ class Button(Sprite):
     def update(self, *args):
         if not args:
             return
-
         if args[0].type == pygame.MOUSEMOTION:
             if self.rect.collidepoint(args[0].pos):
                 if not self.is_active:
@@ -140,3 +139,67 @@ class RaangeSlider(Sprite):
 
     def on_click(self):
         pass
+
+class SearchBox:
+    def __init__(self, x, y, width, height, font_size=32, font_color=(0, 0, 0), bg_color=(255, 255, 255)):
+        self.rect = pygame.Rect(x, y, width, height)
+        self.font = pygame.font.Font(None, font_size)
+        self.font_color = font_color
+        self.bg_color = bg_color
+        self.text = '6'
+        self.active = False
+        self.cursor_visible = True
+        self.cursor_timer = 0
+
+    def update(self, event):
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if self.rect.collidepoint(event.pos):
+                self.active = not self.active
+            else:
+                self.active = False
+        elif event.type == pygame.KEYDOWN:
+            if self.active:
+                if event.key == pygame.K_RETURN:
+                    print(self.text)
+                    self.text = ''
+                elif event.key == pygame.K_BACKSPACE:
+                    self.text = self.text[:-1]
+                else:
+                    self.text += event.unicode
+
+    def render(self, screen):
+        print(self.text)
+        # Render the current text
+        text_surface = self.font.render(self.text, True, self.font_color)
+
+        # Render the background of the input box
+        pygame.draw.rect(screen, self.bg_color, self.rect)
+
+        # Render the text onto the input box
+        screen.blit(text_surface, (self.rect.x + 5, self.rect.y + 5))
+
+        # Draw the cursor
+        if self.active:
+            self.cursor_timer += 1
+            if self.cursor_timer >= 30:
+                self.cursor_timer = 0
+                self.cursor_visible = not self.cursor_visible
+            if self.cursor_visible:
+                cursor_x = self.rect.x + 5 + text_surface.get_width()
+                cursor_y = self.rect.y + 5
+                pygame.draw.line(screen, (0, 0, 0), (cursor_x, cursor_y), (cursor_x, cursor_y + text_surface.get_height()), 2)
+
+    def resize(self, width, height):
+        self.rect.width = width
+        self.rect.height = height
+
+    def replace(self, x, y):
+        self.rect.x = x
+        self.rect.y = y
+
+
+# Initialize Pygame
+pygame.init()
+screen_width, screen_height = 800, 600
+screen = pygame.display.set_mode((screen_width, screen_height))
+clock = pygame.time.Clock()

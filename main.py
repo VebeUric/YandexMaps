@@ -8,17 +8,17 @@ WHITE = (255, 255, 255)
 pygame.init()
 screen = pygame.display.set_mode((window_width, windwo_hiegth))
 AppManager = AppManager()
-menu_widgets = MenuWidgets()
+menu_widgets = MenuWidgets(AppManager.St)
 
 clock = pygame.time.Clock()
-FPS = 40
+FPS = 60
 
 running = True
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-        screen.fill((WHITE))
+        screen.fill(WHITE)
         keys = pygame.key.get_pressed()
 
     AppManager.get_map(screen, 0, 0, 680, 480)

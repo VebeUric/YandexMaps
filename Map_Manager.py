@@ -35,6 +35,7 @@ class StaticAPI:
 
 
     def set_mode(self, mode):
+        print(44444444)
         self.map_params['l'] = mode
     def set_spn(self, spn):
         self.map_params['spn'] = f'{spn},{spn}'
